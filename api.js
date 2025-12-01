@@ -1,4 +1,4 @@
-let botonActualDeAdopcion = null; // Variable global para rastrear el botón
+let botonActualDeAdopcion = null; 
 
 function fetchAnimals() {
   return {
@@ -40,9 +40,7 @@ function mostrarAnimales(animales) {
     const { name, species, breed, age, size, location, healthIssues, surgeries, pictureThumbnailUrl } = animal.attributes;
     const card = document.createElement('div');
     card.className = 'animal-card';
-    
-    // Verificar si este animal ya fue solicitado (simulación con localStorage si fuera un caso real)
-    // Para esta demostración simple, nos basamos en el estado del botón.
+  
     
     card.innerHTML = `
       <img src="${pictureThumbnailUrl}" alt="${name}">
@@ -62,7 +60,7 @@ function mostrarAnimales(animales) {
 
   // Los botones ya tienen la clase btn btn-success
   document.querySelectorAll('.btn-success').forEach(btn => {
-    btn.addEventListener('click', () => abrirModal(btn.dataset.animal, btn)); // 🟢 PASAR EL ELEMENTO DEL BOTÓN
+    btn.addEventListener('click', () => abrirModal(btn.dataset.animal, btn));
   });
 }
 
@@ -81,11 +79,11 @@ function filtrarAnimales(animales) {
   });
 }
 
-function abrirModal(nombreAnimal, botonElemento) { // 🟢 RECIBE EL ELEMENTO DEL BOTÓN
+function abrirModal(nombreAnimal, botonElemento) { 
   document.getElementById('modal').style.display = 'flex';
   document.getElementById('nombreAnimal').textContent = `Adoptar a ${nombreAnimal}`;
   
-  botonActualDeAdopcion = botonElemento; // 🟢 GUARDA LA REFERENCIA
+  botonActualDeAdopcion = botonElemento; 
 }
 
 function cerrarModal() {
@@ -93,7 +91,7 @@ function cerrarModal() {
   document.getElementById('nombrePersona').value = '';
   document.getElementById('contactoPersona').value = '';
   document.getElementById('mensajePersona').value = '';
-  botonActualDeAdopcion = null; // Limpia la referencia al cerrar
+  botonActualDeAdopcion = null; 
 }
 
 function enviarSolicitud() {
@@ -106,12 +104,10 @@ function enviarSolicitud() {
     return;
   }
 
-  // 🟢 CAMBIAR Y DESHABILITAR EL BOTÓN CON BOOTSTRAP
   if (botonActualDeAdopcion) {
-    botonActualDeAdopcion.disabled = true; // Deshabilita el botón
+    botonActualDeAdopcion.disabled = true; 
     botonActualDeAdopcion.textContent = "¡Solicitado!"; 
     
-    // Cambiar color: de verde (btn-success) a gris (btn-secondary)
     botonActualDeAdopcion.classList.remove('btn-success');
     botonActualDeAdopcion.classList.add('btn-secondary');
   }
@@ -129,14 +125,13 @@ function init() {
     mostrarAnimales(filtrados);
   });
 
-  // Event listeners para cerrar el Modal
   document.getElementById('cerrarModal').addEventListener('click', cerrarModal);
-  document.getElementById('enviarSolicitud').addEventListener('click', enviarSolicitud); // Llama a la lógica de deshabilitar
+  document.getElementById('enviarSolicitud').addEventListener('click', enviarSolicitud);
 
-  // Cerrar al hacer clic en el fondo gris
   document.getElementById('modal').addEventListener('click', e => {
     if (e.target.id === 'modal') cerrarModal();
   });
 }
 
 window.addEventListener('DOMContentLoaded', init);
+
