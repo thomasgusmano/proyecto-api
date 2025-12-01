@@ -1,0 +1,137 @@
+/* General */
+body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f7f9fb;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* 🟢 Filtros: Eliminamos casi todo, ya que el diseño es manejado por 'row g-2' de Bootstrap */
+.filters {
+    display: flex; /* Mantenemos flex para el layout general, aunque Bootstrap lo controla */
+}
+
+/* Tarjetas */
+.animal-card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 12px;
+    margin: 12px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding: 12px;
+    transition: transform 0.2s ease;
+}
+
+.animal-card:hover {
+    transform: scale(1.02);
+}
+
+.animal-card img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.animal-info {
+    flex: 1;
+}
+
+.contador {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* 🟢 Modal: Redefinimos solo lo esencial para que se comporte como una superposición */
+.modal {
+    /* Mantenemos el display none que controlarás por JS para mostrarlo */
+    display: none; 
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); /* Sombra detrás del modal */
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+/* 🟢 Eliminamos .modal-content y .send-btn porque Bootstrap maneja todo eso (modal-content, btn, w-100) */
+/* El botón de cierre ahora usa .btn-close de Bootstrap, por lo que podemos eliminar .close-btn */
+
+/* Toast */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s, transform 0.4s;
+    z-index: 20;
+    font-weight: bold;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ========================================= */
+/* Media Query para Dispositivos Móviles */
+/* ========================================= */
+@media (max-width: 600px) {
+    /* Ajustes para el cuerpo */
+    body {
+        padding: 10px;
+    }
+
+    /* 🟢 Filtros: Ya no es necesario cambiar flex-direction, ya que 'col-12' de Bootstrap lo maneja */
+    
+    /* Ajustes para las Tarjetas de Animales */
+    .animal-card {
+        flex-direction: column; 
+        text-align: center;
+        padding: 15px;
+    }
+
+    .animal-card img {
+        width: 100%; 
+        height: auto;
+        max-height: 180px; 
+        margin: 0 0 10px 0; 
+    }
+
+    .animal-info {
+        width: 100%;
+    }
+
+    /* Ajuste para el Toast en móviles */
+    .toast {
+        left: 50%; 
+        right: auto;
+        transform: translateX(-50%);
+        bottom: 10px;
+        width: 80%;
+        text-align: center;
+    }
+    
+    .toast.show {
+        transform: translate(-50%, 0);
+    }
+}
