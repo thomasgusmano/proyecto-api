@@ -1,0 +1,108 @@
+/* 1. Usamos Variables CSS (:root) para fácil mantenimiento */
+:root {
+    --bg-color: #f7f9fb;
+    --text-color: #333;
+    --heading-color: #2c3e50;
+    --card-bg: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --radius: 12px;
+}
+
+body {
+    /* Bootstrap ya define la fuente, pero si quieres forzar Segoe UI: */
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* 2. Optimización de textos */
+h1 {
+    color: var(--heading-color);
+    /* El align y margin se pueden manejar con clases de bootstrap (text-center, mb-4) en el HTML, 
+       pero lo dejamos aquí para limpiar el HTML */
+    text-align: center; 
+    margin-bottom: 1.5rem;
+}
+
+/* 3. Tarjeta con Flexbox (Mucho más robusto que usar floats o márgenes sueltos) */
+.animal-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+    padding: 1rem;
+    
+    /* MAGIA AQUÍ: Alinea imagen y texto perfectamente */
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+    transition: transform 0.2s ease;
+}
+
+.animal-card:hover {
+    transform: translateY(-2px); /* Un pequeño efecto visual profesional */
+}
+
+.animal-card img {
+    width: 110px;
+    height: 110px; /* Forzamos cuadrado para consistencia */
+    object-fit: cover; /* Evita que la foto se estire/deforme */
+    border-radius: 10px;
+    flex-shrink: 0; /* Evita que la imagen se aplaste si hay mucho texto */
+}
+
+/* 4. Eliminamos reglas innecesarias */
+/* html { min-width... } -> Eliminado, Bootstrap maneja el viewport. */
+/* .filters { ... } -> Eliminado, el grid de bootstrap ya se encarga del ancho. */
+
+.contador {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--heading-color);
+}
+
+/* 5. Corrección del Modal */
+/* IMPORTANTE: Bootstrap ya tiene estilos para .modal. 
+   Sobreescribir 'background' o 'display' aquí suele romper la funcionalidad de JS de Bootstrap.
+   Si quieres un fondo oscuro custom, usa .modal-backdrop (clase de bootstrap).
+   Dejaré solo ajustes cosméticos seguros. */
+
+.modal-content {
+    border-radius: var(--radius);
+    border: none;
+    box-shadow: var(--shadow);
+}
+
+/* 6. Toast Customizado (Si no usas el de Bootstrap) */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: #198754; /* Color 'success' de bootstrap */
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    z-index: 1050; /* Para asegurar que flote sobre todo */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    /* 'display: none' se suele manejar con JS, aquí usamos opacidad para animación */
+    pointer-events: none; 
+}
+
+.toast.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Media Query simplificada */
+@media (max-width: 600px) {
+    .toast {
+        right: 50%;
+        transform: translateX(50%); /* Centrado horizontal real */
+        width: 90%; /* Que no ocupe toda la pantalla en móviles */
+        text-align: center;
+    }
+}
