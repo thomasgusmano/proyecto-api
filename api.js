@@ -4,11 +4,11 @@ function fetchAnimals() {
   return {
     data: [
       { attributes: { name: "Max", species: "Perro", breed: "Labrador", age: "3 años", size: "Mediano", location: "Avellaneda", healthIssues: "Ninguno", surgeries: "Castrado", pictureThumbnailUrl: "https://placedog.net/400/400?id=1" } },
-      { attributes: { name: "Luna", species: "Gato", breed: "Siamés", age: "8 meses", size: "Pequeño", location: "Lanús", healthIssues: "Alergia leve", surgeries: "Vacunada", pictureThumbnailUrl: "https://placekitten.com/400/400" } },
+      { attributes: { name: "Luna", species: "Gato", breed: "Siamés", age: "8 meses", size: "Pequeño", location: "Lanús", healthIssues: "Alergia leve", surgeries: "Vacunada", pictureThumbnailUrl: "https://placecats.com/400/400" } },
       { attributes: { name: "Rocky", species: "Perro", breed: "Bulldog", age: "10 meses", size: "Grande", location: "Quilmes", healthIssues: "Problemas de articulaciones", surgeries: "Castrado", pictureThumbnailUrl: "https://placedog.net/401/401?id=2" } },
-      { attributes: { name: "Mia", species: "Gato", breed: "Persa", age: "6 meses", size: "Pequeño", location: "Lomas de Zamora", healthIssues: "Ninguno", surgeries: "Vacunada", pictureThumbnailUrl: "https://placekitten.com/401/401" } },
+      { attributes: { name: "Mia", species: "Gato", breed: "Persa", age: "6 meses", size: "Pequeño", location: "Lomas de Zamora", healthIssues: "Ninguno", surgeries: "Vacunada", pictureThumbnailUrl: "https://placecats.com/401/401" } },
       { attributes: { name: "Buddy", species: "Perro", breed: "Beagle", age: "4 años", size: "Mediano", location: "Berazategui", healthIssues: "Problemas de piel", surgeries: "Castrado", pictureThumbnailUrl: "https://placedog.net/402/402?id=3" } },
-      { attributes: { name: "Simba", species: "Gato", breed: "Maine Coon", age: "11 meses", size: "Grande", location: "Almirante Brown", healthIssues: "Ninguno", surgeries: "Vacunado", pictureThumbnailUrl: "https://placekitten.com/402/402" } }
+      { attributes: { name: "Simba", species: "Gato", breed: "Maine Coon", age: "11 meses", size: "Grande", location: "Almirante Brown", healthIssues: "Ninguno", surgeries: "Vacunado", pictureThumbnailUrl: "https://placecats.com/402/402" } }
     ]
   };
 }
