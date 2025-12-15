@@ -1,159 +1,141 @@
-let botonActualDeAdopcion = null; 
+let botonActual = null;
 
 async function fetchAnimals() {
-  const dogImgResponse = await fetch("https://dog.ceo/api/breeds/image/random/3");
-  const dogImages = (await dogImgResponse.json()).message;
+  try {
+    // Traemos imágenes de perros desde la API
+    let res = await fetch("https://dog.ceo/api/breeds/image/random/11");
+    let data = await res.json();
+    console.log("Imágenes de perros de la API:", data.message);
 
-  return {
-    data: getAnimales(dogImages)
-  };
+    // Usamos getAnimales de animals.js para obtener los datos completos
+    let animales = getAnimales(data.message);
+    console.log("Animales combinados:", animales);
+
+    return animales;
+  } catch (err) {
+    console.error("Error al traer imágenes:", err);
+    return getAnimales([]); // Si falla la API, igual devolvemos los animales con URLs vacías
+  }
 }
 
-function mostrarToast(mensaje) {
-  const toast = document.getElementById('toast');
-  toast.textContent = mensaje;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 3000);
-} 
+function mostrarToast(texto) {
+  console.log("TOAST:", texto);
+  let toast = document.getElementById("toast");
+  toast.textContent = texto;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 3000);
+}
 
 function mostrarAnimales(animales) {
-  const animalList = document.getElementById('animal-list');
-  const contador = document.getElementById('contador');
-
-  animalList.textContent = '';
-  contador.textContent = '';
-
-  if (animales.length === 0) {
-    const mensaje = document.createElement('p');
-    mensaje.textContent = 'No se encontraron animales con esos filtros.';
-    mensaje.className = 'no-results';
-    animalList.appendChild(mensaje);
-    return;
-  }
-
-  contador.textContent = `Se encontraron ${animales.length} animales`;
+  let lista = document.getElementById("animal-list");
+  let contador = document.getElementById("contador");
+  lista.textContent = "";
+  contador.textContent = "Se encontraron " + animales.length + " animales";
 
   animales.forEach(animal => {
-    const a = animal.attributes;
+    let a = animal.attributes;
 
-    const card = document.createElement('div');
-    card.className = 'animal-card';
+    let card = document.createElement("div");
+    card.className = "animal-card";
 
-    const img = document.createElement('img');
+    let img = document.createElement("img");
     img.src = a.pictureThumbnailUrl;
     img.alt = a.name;
 
-    const info = document.createElement('div');
-    info.className = 'animal-info';
+    let info = document.createElement("div");
+    info.className = "animal-info";
 
-    const titulo = document.createElement('h3');
-    titulo.textContent = `${a.name} (${a.species})`;
-
-    const pRaza = document.createElement('p');
-    pRaza.textContent = `Raza: ${a.breed}`;
-
-    const pEdad = document.createElement('p');
-    pEdad.textContent = `Edad: ${a.age}`;
-
-    const pTam = document.createElement('p');
-    pTam.textContent = `Tamaño: ${a.size}`;
-
-    const pLoc = document.createElement('p');
-    pLoc.textContent = `Ubicación: ${a.location}`;
-
-    const pSalud = document.createElement('p');
-    pSalud.textContent = `Problemas de salud: ${a.healthIssues}`;
-
-    const pCir = document.createElement('p');
-    pCir.textContent = `Cirugías/Tratamientos: ${a.surgeries}`;
-
-    const btn = document.createElement('button');
-    btn.className = 'btn btn-success';
-    btn.textContent = 'Solicitar adopción';
-    btn.addEventListener('click', () => abrirModal(a.name, btn));
-
+    let titulo = document.createElement("h3");
+    titulo.textContent = a.name + " (" + a.species + ")";
     info.appendChild(titulo);
-    info.appendChild(pRaza);
-    info.appendChild(pEdad);
-    info.appendChild(pTam);
-    info.appendChild(pLoc);
-    info.appendChild(pSalud);
-    info.appendChild(pCir);
-    info.appendChild(btn);
 
+    ["Raza: " + a.breed,
+     "Edad: " + a.age,
+     "Tamaño: " + a.size,
+     "Ubicación: " + a.location,
+     "Problemas de salud: " + a.healthIssues,
+     "Cirugías/Tratamientos: " + a.surgeries
+    ].forEach(t => {
+      let p = document.createElement("p");
+      p.textContent = t;
+      info.appendChild(p);
+    });
+
+    let boton = document.createElement("button");
+    boton.className = "btn btn-success";
+    boton.textContent = "Solicitar adopción";
+    boton.onclick = () => abrirModal(a.name, boton);
+
+    info.appendChild(boton);
     card.appendChild(img);
     card.appendChild(info);
-
-    animalList.appendChild(card);
+    lista.appendChild(card);
   });
 }
 
 function filtrarAnimales(animales) {
-  const localidad = document.getElementById('localidad').value;
-  const especie = document.getElementById('especie').value;
-  const edadTipo = document.getElementById('edadTipo').value;
+  let localidad = document.getElementById("localidad").value;
+  let especie = document.getElementById("especie").value;
+  let edadTipo = document.getElementById("edadTipo").value;
+  console.log("Filtrando animales: localidad=" + localidad + ", especie=" + especie + ", edadTipo=" + edadTipo);
 
-  return animales.filter(a => {
-    const { location, species, age } = a.attributes;
-    if (localidad !== 'Todas' && location !== localidad) return false;
-    if (especie !== 'Todas' && species !== especie) return false;
-    if (edadTipo === 'Meses' && !age.includes('mes')) return false;
-    if (edadTipo === 'Años' && !age.includes('año')) return false;
+  return animales.filter(animal => {
+    let a = animal.attributes;
+    if (localidad !== "Todas" && a.location !== localidad) return false;
+    if (especie !== "Todas" && a.species !== especie) return false;
+    if (edadTipo === "Meses" && !a.age.includes("mes")) return false;
+    if (edadTipo === "Años" && !a.age.includes("año")) return false;
     return true;
   });
 }
 
-function abrirModal(nombreAnimal, botonElemento) { 
-  document.getElementById('modal').style.display = 'flex';
-  document.getElementById('nombreAnimal').textContent = `Adoptar a ${nombreAnimal}`;
-  botonActualDeAdopcion = botonElemento; 
+function abrirModal(nombre, boton) {
+  document.getElementById("modal").style.display = "flex";
+  document.getElementById("nombreAnimal").textContent = "Adoptar a " + nombre;
+  botonActual = boton;
+  console.log("Abriendo modal para " + nombre);
 }
 
 function cerrarModal() {
-  document.getElementById('modal').style.display = 'none';
-  document.getElementById('nombrePersona').value = '';
-  document.getElementById('contactoPersona').value = '';
-  document.getElementById('mensajePersona').value = '';
-  botonActualDeAdopcion = null; 
+  document.getElementById("modal").style.display = "none";
+  document.getElementById("nombrePersona").value = "";
+  document.getElementById("contactoPersona").value = "";
+  document.getElementById("mensajePersona").value = "";
+  botonActual = null;
+  console.log("Modal cerrado");
 }
 
 function enviarSolicitud() {
-  const nombreAnimal = document.getElementById('nombreAnimal').textContent.replace('Adoptar a ', '');
-  const nombre = document.getElementById('nombrePersona').value.trim();
-  const contacto = document.getElementById('contactoPersona').value.trim();
+  let nombre = document.getElementById("nombrePersona").value.trim();
+  let contacto = document.getElementById("contactoPersona").value.trim();
+  let animal = document.getElementById("nombreAnimal").textContent.replace("Adoptar a ", "");
 
   if (!nombre || !contacto) {
     mostrarToast("Por favor completa tu nombre y contacto.");
     return;
   }
 
-  if (botonActualDeAdopcion) {
-    botonActualDeAdopcion.disabled = true;
-    botonActualDeAdopcion.textContent = "¡Solicitado!";
-    botonActualDeAdopcion.classList.remove('btn-success');
-    botonActualDeAdopcion.classList.add('btn-secondary');
+  if (botonActual) {
+    botonActual.disabled = true;
+    botonActual.textContent = "¡Solicitado!";
+    botonActual.className = "btn btn-secondary";
   }
 
-  mostrarToast(`¡Gracias ${nombre}! En breve nos contactaremos por ${nombreAnimal}.`);
+  mostrarToast(`¡Gracias ${nombre}! En breve nos contactaremos por ${animal}.`);
+  console.log("Solicitud enviada por " + nombre + " para " + animal);
   cerrarModal();
 }
 
 async function init() {
-  const resultado = await fetchAnimals();
-  const animales = resultado.data;
-
+  let animales = await fetchAnimals();
   mostrarAnimales(animales);
 
-  document.getElementById('filtrar').addEventListener('click', () => {
-    mostrarAnimales(filtrarAnimales(animales));
-  });
+  document.getElementById("filtrar").onclick = () => mostrarAnimales(filtrarAnimales(animales));
+  document.getElementById("cerrarModal").onclick = cerrarModal;
+  document.getElementById("enviarSolicitud").onclick = enviarSolicitud;
 
-  document.getElementById('cerrarModal').addEventListener('click', cerrarModal);
-  document.getElementById('enviarSolicitud').addEventListener('click', enviarSolicitud);
-
-  document.getElementById('modal').addEventListener('click', e => {
-    if (e.target.id === 'modal') cerrarModal();
-  });
+  document.getElementById("modal").onclick = e => { if (e.target.id === "modal") cerrarModal(); };
+  console.log("Arranque");
 }
 
-window.addEventListener('DOMContentLoaded', init);
+window.onload = init;
