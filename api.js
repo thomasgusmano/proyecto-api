@@ -2,19 +2,17 @@ let botonActual = null;
 
 async function fetchAnimals() {
   try {
-    // Traemos imágenes de perros desde la API
     let res = await fetch("https://dog.ceo/api/breeds/image/random/11");
     let data = await res.json();
     console.log("Imágenes de perros de la API:", data.message);
 
-    // Usamos getAnimales de animals.js para obtener los datos completos
     let animales = getAnimales(data.message);
     console.log("Animales combinados:", animales);
 
     return animales;
   } catch (err) {
-    console.error("Error al traer imágenes:", err);
-    return getAnimales([]); // Si falla la API, igual devolvemos los animales con URLs vacías
+    console.error("Error:", err);
+    return getAnimales([]); 
   }
 }
 
