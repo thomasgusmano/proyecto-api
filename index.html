@@ -3,12 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perros en busqueda de dueño</title>
+  <title>Perros en búsqueda de dueño</title>
+
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Perros en busqueda de dueño</h1>
+
+  <h1>Perros en búsqueda de dueño</h1>
 
   <div class="filters row g-2 mb-3">
     <div class="col-12 col-md-3">
@@ -45,43 +47,33 @@
   <div id="modal" class="modal" tabindex="-1">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
+
         <div class="modal-header">
           <h5 class="modal-title">Solicitud de adopción</h5>
-          <button type="button" class="btn-close" aria-label="Close" id="cerrarModal"></button>
+          <button type="button" class="btn-close" id="cerrarModal"></button>
         </div>
-        
+
         <div class="modal-body">
           <p id="nombreAnimal"></p>
-          <input type="text" id="nombrePersona" placeholder="Tu nombre" class="form-control mb-2">
-          <input type="email" id="contactoPersona" placeholder="Tu email o teléfono" class="form-control mb-2">
-          <textarea id="mensajePersona" placeholder="Mensaje o motivo de adopción" class="form-control mb-3"></textarea>
-          <button class="btn btn-info w-100" id="enviarSolicitud">Enviar solicitud</button>
+
+          <input type="text" id="nombrePersona" class="form-control mb-2" placeholder="Tu nombre">
+          <input type="email" id="contactoPersona" class="form-control mb-2" placeholder="Tu email o teléfono">
+          <textarea id="mensajePersona" class="form-control mb-3" placeholder="Mensaje"></textarea>
+
+          <button id="enviarSolicitud" class="btn btn-info w-100">
+            Enviar solicitud
+          </button>
         </div>
+
       </div>
     </div>
   </div>
 
   <div id="toast" class="toast"></div>
 
-  <template id="animal-template">
-    <div class="animal-card">
-      <img src="" alt="" class="animal-img">
-      <div class="animal-info">
-        <p><strong>Nombre:</strong> <span class="animal-name"></span></p>
-        <p><strong>Raza:</strong> <span class="animal-breed"></span></p>
-        <p><strong>Edad:</strong> <span class="animal-age"></span></p>
-        <p><strong>Tamaño:</strong> <span class="animal-size"></span></p>
-        <p><strong>Ubicación:</strong> <span class="animal-location"></span></p>
-        <p><strong>Problemas de salud:</strong> <span class="animal-health"></span></p>
-        <p><strong>Cirugías/Tratamientos:</strong> <span class="animal-surgeries"></span></p>
-        <button class="btn btn-success animal-adopt-btn">Solicitar adopción</button>
-      </div>
-    </div>
-  </template>
-
   <script src="animals.js"></script>
   <script src="api.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
