@@ -12,7 +12,6 @@ async function fetchAnimals() {
   return animales;
 }
 
-
 function mostrarToast(texto) {
   let toast = document.getElementById("toast");
   toast.textContent = texto;
@@ -37,11 +36,11 @@ function mostrarAnimales(animales) {
   lista.innerHTML = "";
   contador.textContent = "Se encontraron " + animales.length + " animales";
 
-
   animales.forEach(function (animal) {
 
     let card = document.createElement("div");
-    card.className = "animal-card"; 
+    card.className = "animal-card";
+
     let img = document.createElement("img");
     img.className = "animal-img";
     img.src = animal.pictureThumbnailUrl;
@@ -76,16 +75,12 @@ function filtrarAnimales(animales) {
   let localidad = document.getElementById("localidad").value;
   let edadTipo = document.getElementById("edadTipo").value;
 
-  console.log("Filtrando por:", localidad, edadTipo);
-
   let resultado = animales.filter(function (animal) {
     if (localidad !== "Todas" && animal.location !== localidad) return false;
     if (edadTipo === "Meses" && animal.age.indexOf("mes") === -1) return false;
     if (edadTipo === "Años" && animal.age.indexOf("año") === -1) return false;
     return true;
   });
-
-  console.log("Animales encontrados:", resultado.length);
 
   return resultado;
 }
@@ -94,8 +89,6 @@ function abrirModal(nombre, boton) {
   document.getElementById("modal").style.display = "flex";
   document.getElementById("nombreAnimal").textContent = "Adoptar a " + nombre;
   botonActual = boton;
-
-  console.log("Abriendo modal para:", nombre);
 }
 
 function cerrarModal() {
@@ -104,8 +97,6 @@ function cerrarModal() {
   document.getElementById("contactoPersona").value = "";
   document.getElementById("mensajePersona").value = "";
   botonActual = null;
-
-  console.log("Modal cerrado");
 }
 
 function enviarSolicitud() {
@@ -116,12 +107,9 @@ function enviarSolicitud() {
     .textContent.replace("Adoptar a ", "");
 
   if (!nombre || !contacto) {
-    console.log("Formulario incompleto");
     mostrarToast("Por favor completa tu nombre y contacto.");
     return;
   }
-
-  console.log("Solicitud enviada:", nombre, contacto, animal);
 
   if (botonActual) {
     botonActual.disabled = true;
@@ -129,19 +117,16 @@ function enviarSolicitud() {
     botonActual.className = "btn btn-secondary";
   }
 
-  mostrarToast("¡Gracias " + nombre + "! En breve nos contactaremos por " + animal + ".");
+  mostrarToast("¡Gracias " + nombre + "! Nos contactaremos por " + animal + ".");
   cerrarModal();
 }
 
 async function init() {
-  console.log("Arranque");
-
   let animales = await fetchAnimals();
   mostrarAnimales(animales);
 
   document.getElementById("filtrar").onclick = function () {
-    let filtrados = filtrarAnimales(animales);
-    mostrarAnimales(filtrados);
+    mostrarAnimales(filtrarAnimales(animales));
   };
 
   document.getElementById("cerrarModal").onclick = cerrarModal;
